@@ -2,6 +2,8 @@
 
 import 'package:navigair/screens/flight_info.dart';
 import 'package:flutter/material.dart';
+import 'package:navigair/speech_screen.dart';
+import 'package:navigair/speech_to_text_page.dart';
 import 'package:navigair/utils.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -55,6 +57,14 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.ac_unit_rounded),
             label: "Fourth",
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.abc_rounded),
+            label: "stt",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.abc_rounded),
+            label: "tts",
+          ),
         ],
       ),
       body: PageView(
@@ -69,6 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
           CarouselPage(pageNumber: 2, title: "Boarding Pass"),
           CarouselPage(pageNumber: 3, title: "Page 3"),
           CarouselPage(pageNumber: 4, title: "Page 4"),
+          SpeechScreen(),
+          Stt(),
         ],
       ),
     );
