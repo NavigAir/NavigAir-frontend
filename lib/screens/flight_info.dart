@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_compass/flutter_compass.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:navigair/dealer.dart';
 import 'package:navigair/theme.dart';
 
@@ -64,9 +66,74 @@ class FlightInfoWidget extends StatelessWidget {
               ),
             ),
             // Compass
+            Compass(
+              destination: LatLng(41.313109, 2.015360),
+            ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class Compass extends StatefulWidget {
+  LatLng destination;
+
+  Compass({super.key, required this.destination});
+
+  @override
+  State<Compass> createState() => CompassState();
+}
+
+class CompassState extends State<Compass> {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: FlutterCompass.events,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text('Error reading heading: ${snapshot.error}');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          return _buildCompass(context, snapshot);
+        });
+  }
+
+  Widget _buildCompass(BuildContext context, snapshot) {
+    double? direction = snapshot.data!.heading;
+
+    // if direction is null, then device does not support this sensor
+    // show error message
+    if (direction == null) {
+      return const Center(
+        child: Text("Device does not have sensors !"),
+      );
+    }
+
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Image.asset(
+          'assets/compass_background.png',
+          fit: BoxFit.contain,
+          color: Theme.of(context).colorScheme.secondary,
+          scale: 2.3,
+        ),
+        Transform.rotate(
+          angle: (direction * (pi / 180) * -1),
+          child: Image.asset(
+            'assets/compass.png',
+            fit: BoxFit.contain,
+            scale: 1.2,
+          ),
+        ),
+      ],
     );
   }
 }

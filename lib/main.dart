@@ -1,5 +1,5 @@
+import 'package:navigair/route_generator.dart';
 import 'package:navigair/theme.dart';
-import 'home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -11,7 +11,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: lightMode,
       darkTheme: darkMode,
-      home: HomeScreen(),
+      initialRoute: '/login',
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }
