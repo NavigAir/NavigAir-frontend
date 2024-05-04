@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 class SpeechScreen extends StatefulWidget {
-  const SpeechScreen ({super.key});
+  const SpeechScreen({super.key});
 
   @override
   State<SpeechScreen> createState() => _SpeechScreenState();
@@ -10,7 +10,7 @@ class SpeechScreen extends StatefulWidget {
 
 class _SpeechScreenState extends State<SpeechScreen> {
   final FlutterTts flutterTts = FlutterTts();
-  final TextEditingController textController  = TextEditingController();
+  final TextEditingController textController = TextEditingController();
 
   @override
   void dispose() {
@@ -18,7 +18,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
     super.dispose();
   }
 
-  Future<void> speak(String text) async{
+  Future<void> speak(String text) async {
     await flutterTts.setLanguage('en-US');
     await flutterTts.setPitch(1);
     await flutterTts.setSpeechRate(0.4);

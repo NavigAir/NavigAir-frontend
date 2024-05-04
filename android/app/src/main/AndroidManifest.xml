@@ -5,6 +5,10 @@
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- Vibration permissions -->
+     <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:label="navigair"
         android:name="${applicationName}"
