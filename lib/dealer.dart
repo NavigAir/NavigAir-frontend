@@ -20,6 +20,6 @@ class Dealer {
   }
 
   static bool checkLogin(email, password) {
-    return false;
+    return true;
   }
 }

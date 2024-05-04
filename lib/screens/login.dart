@@ -2,17 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:navigair/dealer.dart';
 import 'package:navigair/screens/flight_input.dart';
 
-void main() {
-  runApp(MaterialApp(
-    initialRoute: '/',
-    routes: {
-      '/': (context) => LoginScreen(),
-      '/signup': (context) => SignupScreen(),
-      '/flight_input': (context) => FlightInputScreen(),
-    },
-  ));
-}
-
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
