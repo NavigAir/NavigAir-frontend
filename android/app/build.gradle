@@ -25,6 +25,7 @@ if (flutterVersionName == null) {
 ext.kotlin_version = '1.9.23'
 
 android {
+    compileSdkVersion 33
     namespace "com.example.navigair"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
