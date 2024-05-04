@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ChildWidget extends StatelessWidget {
+class DefaultPageWidget extends StatelessWidget {
   final AvailableNumber number;
 
-  const ChildWidget({this.number = AvailableNumber.First}) : super();
+  const DefaultPageWidget({this.number = AvailableNumber.First}) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +12,10 @@ class ChildWidget extends StatelessWidget {
       file = "first";
     } else if (number == AvailableNumber.Second) {
       file = "second";
-    } else {
+    } else if (number == AvailableNumber.Third) {
       file = "third";
+    } else {
+      file = "fourth";
     }
 
     return SafeArea(
@@ -26,7 +28,7 @@ class ChildWidget extends StatelessWidget {
               "$file screen",
               style: TextStyle(fontSize: 36.0),
             ),
-            // Flexible(child: Image.asset("assets/undraw/$file.png"))
+            Flexible(child: Image.asset("assets/default.jpg"))
           ],
         ),
       ),
