@@ -18,4 +18,8 @@ class Dealer {
   static LatLng getBoardingDoorNextLocation() {
     return const LatLng(41.313109, 2.015360);
   }
+
+  static bool checkLogin(email, password) {
+    return false;
+  }
 }
