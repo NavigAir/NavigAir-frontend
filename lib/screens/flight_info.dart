@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_compass/flutter_compass.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:navigair/dealer.dart';
 import 'package:navigair/theme.dart';
@@ -78,6 +79,7 @@ class FlightInfoWidget extends StatelessWidget {
 
 class Compass extends StatefulWidget {
   LatLng destination;
+  LatLng? currentPosition;
 
   Compass({super.key, required this.destination});
 
@@ -87,6 +89,17 @@ class Compass extends StatefulWidget {
 
 class CompassState extends State<Compass> {
   @override
+  void initState() {
+    super.initState();
+    _setCurrentPosition();
+  }
+
+  void _setCurrentPosition() async {
+    final Position pos = await Geolocator.getCurrentPosition();
+    widget.currentPosition = LatLng(pos.latitude, pos.longitude);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder(
         stream: FlutterCompass.events,
@@ -94,12 +107,12 @@ class CompassState extends State<Compass> {
           if (snapshot.hasError) {
             return Text('Error reading heading: ${snapshot.error}');
           }
-
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
+          _setCurrentPosition();
 
           return _buildCompass(context, snapshot);
         });
@@ -112,9 +125,20 @@ class CompassState extends State<Compass> {
     // show error message
     if (direction == null) {
       return const Center(
-        child: Text("Device does not have sensors !"),
+        child: Text("Device does not have sensors!"),
       );
     }
+
+    if (widget.currentPosition == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    double bearing = direction +
+        Geolocator.bearingBetween(
+            widget.currentPosition!.latitude,
+            widget.currentPosition!.longitude,
+            widget.destination.latitude,
+            widget.destination.longitude);
 
     return Stack(
       alignment: Alignment.center,
@@ -126,7 +150,7 @@ class CompassState extends State<Compass> {
           scale: 2.3,
         ),
         Transform.rotate(
-          angle: (direction * (pi / 180) * -1),
+          angle: (bearing * (pi / 180)),
           child: Image.asset(
             'assets/compass.png',
             fit: BoxFit.contain,
