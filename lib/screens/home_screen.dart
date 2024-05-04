@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:navigair/screens/flight_info.dart';
-import 'package:navigair/screens/default.dart';
 import 'package:flutter/material.dart';
+import 'package:navigair/utils.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -14,10 +14,6 @@ class _HomeScreenState extends State<HomeScreen> {
     initialPage: 0,
   );
   int currentIndex = 0;
-
-  Widget childWidget = DefaultPageWidget(
-    number: AvailableNumber.First,
-  );
 
   @override
   void dispose() {
@@ -70,9 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         children: <Widget>[
           FlightInfoWidget(pageNumber: 1),
-          DefaultPageWidget(number: AvailableNumber.Second),
-          DefaultPageWidget(number: AvailableNumber.Third),
-          DefaultPageWidget(number: AvailableNumber.Fourth)
+          CarouselPage(pageNumber: 2, title: "Boarding Pass"),
+          CarouselPage(pageNumber: 3, title: "Page 3"),
+          CarouselPage(pageNumber: 4, title: "Page 4"),
         ],
       ),
     );

@@ -1,3 +1,5 @@
+import 'package:latlong2/latlong.dart';
+
 class Dealer {
   static final userId = 0;
 
@@ -11,5 +13,9 @@ class Dealer {
 
   static String getBoardingDoor() {
     return "32B";
+  }
+
+  static LatLng getBoardingDoorNextLocation() {
+    return const LatLng(41.313109, 2.015360);
   }
 }
