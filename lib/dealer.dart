@@ -47,6 +47,32 @@ class Dealer {
     }
   }
 
+  Future<void> sendPutRequest(String endpoint, Map<String, dynamic> data) async {
+  try {
+    // Convert the data to JSON format
+    final body = jsonEncode(data);
+
+    // Send the PUT request
+    final response = await http.put(
+      Uri.parse('$baseUrl/$endpoint'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: body,
+    );
+
+    // Check the status code to ensure the request was successful
+    if (response.statusCode == 200) {
+      print('PUT request successful');
+    } else {
+      print('Failed to send PUT request: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    }
+  } catch (e) {
+    print('Error sending PUT request: $e');
+  }
+}
+
   static void createNewUser(String email, String password, String name, String passport, String vision, String? age, String? address, String? birthday) {
     final newUser = {
       'mail': email,

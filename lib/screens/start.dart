@@ -13,7 +13,6 @@ class StartScreenState extends State<StartScreen> {
   @override
   void initState() {
     super.initState();
-
     _fetchLocationPermissionStatus();
     _fetchMicrophonePermissionStatus();
   }
@@ -43,12 +42,15 @@ class StartScreenState extends State<StartScreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: AppBar(
+          title: Text('Permission Check'),
+        ),
         body: Builder(
           builder: (context) {
             if (_hasLocationPermission && _hasMicrophonePermission) {
-              return _buildScreen();
+              return _buildStartScreen(); // Main content
             } else {
-              return _buildPermissionSheet();
+              return _buildPermissionSheet(); // Permission sheet
             }
           },
         ),
@@ -56,16 +58,35 @@ class StartScreenState extends State<StartScreen> {
     );
   }
 
-  Widget _buildScreen() {
+  Widget _buildStartScreen() {
     return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text("Start Screen"),
-          const Padding(padding: EdgeInsets.only(top: 10)),
-          FilledButton(
-              onPressed: () => Navigator.of(context, rootNavigator: true)
-                  .pushNamed('/carousel'),
-              child: const Text("Start"))
+          Text(
+            'Are you at the airport?',
+            style: TextStyle(
+              fontSize: 24.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 30.0),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/flight_input');
+              print('Start button pressed');
+            },
+            style: ElevatedButton.styleFrom(
+              shape: CircleBorder(), // Round button
+              padding: EdgeInsets.all(50), // Large button size
+            ),
+            child: Text(
+              'Start',
+              style: TextStyle(
+                fontSize: 20.0, // Larger text for visibility
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -74,18 +95,28 @@ class StartScreenState extends State<StartScreen> {
   Widget _buildPermissionSheet() {
     return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center, // Vertical centering
+        crossAxisAlignment: CrossAxisAlignment.center, // Horizontal centering
         children: [
-          const Text("This application needs acces to bla bla bla"),
+          Text(
+            'This application requires access to location and microphone.',
+            style: TextStyle(
+              fontSize: 25.0,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center, // Center text alignment
+          ),
+          SizedBox(height: 20.0), // Spacing between elements
           ElevatedButton(
-            child: const Text('Request Permissions'),
             onPressed: () {
-              Permission.locationWhenInUse.request().then((ignored) {
-                _fetchLocationPermissionStatus();
+              Permission.locationWhenInUse.request().then((status) {
+                _fetchLocationPermissionStatus(); // Update permission status
               });
-              Permission.microphone.request().then((ignored) {
-                _fetchMicrophonePermissionStatus();
+              Permission.microphone.request().then((status) {
+                _fetchMicrophonePermissionStatus(); // Update permission status
               });
             },
+            child: Text('Request Permissions'),
           ),
         ],
       ),
