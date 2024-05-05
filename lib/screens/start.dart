@@ -73,7 +73,7 @@ class StartScreenState extends State<StartScreen> {
           SizedBox(height: 30.0),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/flight_input');
+              Navigator.pushNamed(context, '/carousel');
               print('Start button pressed');
             },
             style: ElevatedButton.styleFrom(
