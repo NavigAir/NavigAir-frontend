@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:navigair/dealer.dart';
 import 'package:intl/intl.dart';
+import 'package:navigair/screens/user_details.dart';
 
 // Function to convert the date format to a more readable form
 String convertDate(String dateStr) {
@@ -48,6 +49,10 @@ class DummyFlightData {
 }
 
 class FlightInputScreen extends StatefulWidget {
+  UserDetailsArguments details;
+
+  FlightInputScreen({required this.details});
+
   @override
   _FlightInputScreenState createState() => _FlightInputScreenState();
 }
@@ -117,9 +122,19 @@ class _FlightInputScreenState extends State<FlightInputScreen> {
               if (_flightInfo != null)
                 ElevatedButton(
                   onPressed: () {
-                    // Handle what happens when "Continue" is clicked
-                    Dealer.sendFlight(flight);
-                    Navigator.pushNamed(context, '/start');
+                    widget.details = UserDetailsArguments(
+                      email: widget.details.email,
+                      password: widget.details.password,
+                      name: widget.details.name,
+                      passport: widget.details.passport,
+                      vision: widget.details.vision,
+                      age: widget.details.age,
+                      address: widget.details.address,
+                      birthday: widget.details.birthday,
+                      assigned_flight: _flightNameController.text,
+                    );
+                    Dealer.sendFlight(widget.details);
+                    Navigator.pushNamed(context, '/start', arguments: widget.details);
                   },
                   child: Text('Continue',
                    style: TextStyle(fontSize: 16.0),

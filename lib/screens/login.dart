@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navigair/dealer.dart';
+import 'package:navigair/screens/user_details.dart';
 
 
 class LoginScreen extends StatelessWidget {
@@ -76,14 +77,39 @@ class _LoginFieldsState extends State<LoginFields> {
         ),
         SizedBox(height: 10.0),
         ElevatedButton(
-          onPressed: () {
-            bool correctLogin = Dealer.checkLogin(
-                _emailController.text, _passwordController.text);
+          onPressed: () async {
+            bool correctLogin = false;
+            Map<String, dynamic>? userData = await Dealer.fetchUserData(_emailController.text);
+            print(userData);
+            print(userData?["pwd"]);
+            print(_passwordController.text);
+            print(userData != null);
+            print(userData?["pwd"] == _passwordController.text);
+            if (userData != null && userData["pwd"] == _passwordController.text) {
+              correctLogin = true;
+            }
             // Simulate login validation
             if (correctLogin) {
+              UserDetailsArguments args = UserDetailsArguments(
+                email: userData?["mail"],
+                password: userData?["pwd"],
+                name: userData?["name"],
+                passport: userData?["passport"],
+                vision: userData?["visual_percentage"].toString(),
+                age: userData?["age"].toString(),
+                address: userData?["address"],
+                birthday: userData?["birthday"],
+                assigned_flight: userData?["assigned_flight"],
+              );
               print("login");
-              // Navigate to the next screen
-              Navigator.pushNamed(context, '/flight_input');
+
+              if (userData?["assigned_flight"] == null){
+                Navigator.pushNamed(context, '/flight_input', arguments: args);
+              } else {
+                Navigator.pushNamed(context, '/start', arguments: args);
+              }
+              
+              
             } else {
               print("has error");
               setState(() {

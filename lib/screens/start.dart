@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:navigair/screens/user_details.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class StartScreen extends StatefulWidget {
+  UserDetailsArguments details;
+
+  StartScreen({required this.details});
+
   @override
   State<StartScreen> createState() => StartScreenState();
 }
@@ -73,7 +78,7 @@ class StartScreenState extends State<StartScreen> {
           SizedBox(height: 30.0),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/carousel');
+              Navigator.pushNamed(context, '/carousel', arguments: widget.details);
               print('Start button pressed');
             },
             style: ElevatedButton.styleFrom(

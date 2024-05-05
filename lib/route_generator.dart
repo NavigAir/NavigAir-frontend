@@ -14,16 +14,26 @@ class RouteGenerator {
 
     switch (settings.name) {
       case '/carousel':
-        return CupertinoPageRoute(builder: (_) => HomeScreen());
+        if (args is UserDetailsArguments) {
+          return CupertinoPageRoute(builder: (_) => HomeScreen(details: args,));
+        } else {
+          return errorRoute('${settings.name} with args: $args');
+        }
       case '/login':
         return CupertinoPageRoute(builder: (_) => LoginScreen());
       case '/start':
-        return CupertinoPageRoute(builder: (_) => StartScreen());
+        if (args is UserDetailsArguments) {
+          return CupertinoPageRoute(builder: (_) => StartScreen(details: args,));
+        } else {
+          return errorRoute('${settings.name} with args: $args');
+        }
       case '/flight_input':
-        return CupertinoPageRoute(builder: (_) => FlightInputScreen());
+       if (args is UserDetailsArguments) {
+          return CupertinoPageRoute(builder: (_) => FlightInputScreen(details: args,));
+        } else {
+          return errorRoute('${settings.name} with args: $args');
+        }
       case '/signup':
-        return CupertinoPageRoute(builder: (_) => SignupScreen());
-      case '/personal_info':
         return CupertinoPageRoute(builder: (_) => SignupScreen());
       case '/user_details':
        if (args is UserDetailsArguments) {

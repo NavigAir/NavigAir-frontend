@@ -11,10 +11,19 @@ class UserDetailsArguments {
   final String? age;
   final String? address;
   final String? birthday;
+  final String? assigned_flight;
 
-  UserDetailsArguments({this.name, this.passport, this.vision, this.age, this.address, this.birthday, required this.email, required this.password});
+  UserDetailsArguments(
+      {this.name,
+      this.passport,
+      this.vision,
+      this.age,
+      this.address,
+      this.birthday,
+      this.assigned_flight,
+      required this.email,
+      required this.password});
 }
-
 
 class UserDetailsScreen extends StatefulWidget {
   UserDetailsArguments details;
@@ -37,8 +46,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   // Function to check if all required fields are filled
   bool get areAllFieldsFilled {
     return _nameController.text.trim().isNotEmpty &&
-           _passportController.text.trim().isNotEmpty &&
-           _visionPercentageController.text.trim().isNotEmpty;
+        _passportController.text.trim().isNotEmpty &&
+        _visionPercentageController.text.trim().isNotEmpty;
   }
 
   @override
@@ -63,8 +72,25 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     if (areAllFieldsFilled) {
       print("email:");
       print(widget.details.email);
-      Dealer.createNewUser(widget.details.email, widget.details.password, _nameController.text.trim(),  _passportController.text.trim(), _visionPercentageController.text.trim(), _ageController.text.trim(), _addressController.text.trim(), _birthdayController.text.trim());
-      Navigator.pushNamed(context, '/flight_input');
+      UserDetailsArguments args = UserDetailsArguments(
+          email: widget.details.email,
+          password: widget.details.password,
+          name: _nameController.text.trim(),
+          passport: _passportController.text.trim(),
+          vision: _visionPercentageController.text.trim(),
+          age: _ageController.text.trim(),
+          address: _addressController.text.trim(),
+          birthday: _birthdayController.text.trim());
+      Dealer.createNewUser(
+          widget.details.email,
+          widget.details.password,
+          _nameController.text.trim(),
+          _passportController.text.trim(),
+          _visionPercentageController.text.trim(),
+          _ageController.text.trim(),
+          _addressController.text.trim(),
+          _birthdayController.text.trim());
+      Navigator.pushNamed(context, '/flight_input', arguments: args);
       // Handle user data submission logic here
     }
   }

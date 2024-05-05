@@ -5,12 +5,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:navigair/screens/flight_info.dart';
 import 'package:flutter/material.dart';
+import 'package:navigair/screens/user_details.dart';
 import 'package:navigair/speech2text.dart';
 import 'package:navigair/talk_screen.dart';
 import 'package:navigair/text2speech.dart';
 import 'package:navigair/utils.dart';
 
 class HomeScreen extends StatefulWidget {
+  UserDetailsArguments details;
+
+  HomeScreen({required this.details});
+
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -107,29 +113,33 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: "First",
+              icon: Icon(Icons.insert_drive_file_outlined),
+              label: pageTitles[0],
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.trending_up),
-              label: "Second",
+              label: pageTitles[1],
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard),
-              label: "Third",
+              icon: Icon(Icons.flight),
+              label: pageTitles[2],
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.ac_unit_rounded),
-              label: "Fourth",
+              icon: Icon(Icons.design_services_outlined),
+              label: pageTitles[3],
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.abc_rounded),
-              label: "stt",
+              icon: Icon(Icons.help),
+              label: pageTitles[4],
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.abc_rounded),
-              label: "tts",
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.abc_rounded),
+            //   label: "stt",
+            // ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.abc_rounded),
+            //   label: "tts",
+            // ),
           ],
         ),
         body: PageView(
@@ -167,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
               title: "Page 3",
             ),
             CarouselPage(pageNumber: 4, title: "Page 4"),
-            CarouselPage(pageNumber: 4, title: "Page 5"),
+            CarouselPage(pageNumber: 5, title: "Page 5"),
             TalkScreen(),
           ],
         ),
