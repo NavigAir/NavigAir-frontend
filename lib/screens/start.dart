@@ -47,9 +47,7 @@ class StartScreenState extends State<StartScreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Permission Check'),
-        ),
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: Builder(
           builder: (context) {
             if (_hasLocationPermission && _hasMicrophonePermission) {
@@ -68,24 +66,26 @@ class StartScreenState extends State<StartScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
+          const Text(
             'Are you at the airport?',
             style: TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 30.0),
+          const SizedBox(height: 30.0),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/carousel', arguments: widget.details);
-              print('Start button pressed');
+              Navigator.pushNamed(context, '/carousel',
+                  arguments: widget.details);
             },
             style: ElevatedButton.styleFrom(
-              shape: CircleBorder(), // Round button
-              padding: EdgeInsets.all(50), // Large button size
+              shape: const CircleBorder(), // Round button
+              padding: const EdgeInsets.all(50), // Large button Size
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              foregroundColor: Theme.of(context).colorScheme.primary,
             ),
-            child: Text(
+            child: const Text(
               'Start',
               style: TextStyle(
                 fontSize: 20.0, // Larger text for visibility
@@ -103,7 +103,7 @@ class StartScreenState extends State<StartScreen> {
         mainAxisAlignment: MainAxisAlignment.center, // Vertical centering
         crossAxisAlignment: CrossAxisAlignment.center, // Horizontal centering
         children: [
-          Text(
+          const Text(
             'This application requires access to location and microphone.',
             style: TextStyle(
               fontSize: 25.0,
@@ -111,7 +111,7 @@ class StartScreenState extends State<StartScreen> {
             ),
             textAlign: TextAlign.center, // Center text alignment
           ),
-          SizedBox(height: 20.0), // Spacing between elements
+          const SizedBox(height: 20.0), // Spacing between elements
           ElevatedButton(
             onPressed: () {
               Permission.locationWhenInUse.request().then((status) {
@@ -121,7 +121,11 @@ class StartScreenState extends State<StartScreen> {
                 _fetchMicrophonePermissionStatus(); // Update permission status
               });
             },
-            child: Text('Request Permissions'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              foregroundColor: Theme.of(context).colorScheme.primary,
+            ),
+            child: const Text('Request Permissions'),
           ),
         ],
       ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:navigair/dealer.dart';
 import 'package:navigair/screens/user_details.dart';
 
-
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -77,15 +76,20 @@ class _LoginFieldsState extends State<LoginFields> {
         ),
         SizedBox(height: 10.0),
         ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                  Theme.of(context).colorScheme.secondary)),
           onPressed: () async {
             bool correctLogin = false;
-            Map<String, dynamic>? userData = await Dealer.fetchUserData(_emailController.text);
-            print(userData);
-            print(userData?["pwd"]);
-            print(_passwordController.text);
-            print(userData != null);
-            print(userData?["pwd"] == _passwordController.text);
-            if (userData != null && userData["pwd"] == _passwordController.text) {
+            Map<String, dynamic>? userData =
+                await Dealer.fetchUserData(_emailController.text);
+            // print(userData);
+            // print(userData?["pwd"]);
+            // print(_passwordController.text);
+            // print(userData != null);
+            // print(userData?["pwd"] == _passwordController.text);
+            if (userData != null &&
+                userData["pwd"] == _passwordController.text) {
               correctLogin = true;
             }
             // Simulate login validation
@@ -101,15 +105,13 @@ class _LoginFieldsState extends State<LoginFields> {
                 birthday: userData?["birthday"],
                 assigned_flight: userData?["assigned_flight"],
               );
-              print("login");
+              // print("login");
 
-              if (userData?["assigned_flight"] == null){
+              if (userData?["assigned_flight"] == null) {
                 Navigator.pushNamed(context, '/flight_input', arguments: args);
               } else {
                 Navigator.pushNamed(context, '/start', arguments: args);
               }
-              
-              
             } else {
               print("has error");
               setState(() {
@@ -130,4 +132,3 @@ class _LoginFieldsState extends State<LoginFields> {
     super.dispose();
   }
 }
-

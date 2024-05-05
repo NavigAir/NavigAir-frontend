@@ -119,7 +119,7 @@ class CompassState extends State<Compass> {
         Image.asset(
           'assets/compass_background.png',
           fit: BoxFit.contain,
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).colorScheme.primary,
           scale: 2.3,
         ),
         Transform.rotate(

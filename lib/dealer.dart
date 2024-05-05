@@ -75,30 +75,30 @@ class Dealer {
 
   static Future<void> sendPutRequest(
       String endpoint, Map<String, dynamic> data) async {
-      try {
-        // Convert the data to JSON format
-        final body = jsonEncode(data);
+    try {
+      // Convert the data to JSON format
+      final body = jsonEncode(data);
 
-        // Send the PUT request
-        final response = await http.put(
-          Uri.parse('$baseUrl/$endpoint'),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: body,
-        );
+      // Send the PUT request
+      final response = await http.put(
+        Uri.parse('$baseUrl/$endpoint'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: body,
+      );
 
-        // Check the status code to ensure the request was successful
-        if (response.statusCode == 200) {
-          print('PUT request successful');
-        } else {
-          print('Failed to send PUT request: ${response.statusCode}');
-          print('Response body: ${response.body}');
-        }
-      } catch (e) {
-        print('Error sending PUT request: $e');
+      // Check the status code to ensure the request was successful
+      if (response.statusCode == 200) {
+        print('PUT request successful');
+      } else {
+        print('Failed to send PUT request: ${response.statusCode}');
+        print('Response body: ${response.body}');
       }
+    } catch (e) {
+      print('Error sending PUT request: $e');
     }
+  }
 
   static void createNewUser(
       String email,
@@ -150,12 +150,6 @@ class Dealer {
     String name = serv["name"];
 
     return (location, name);
-
-    print(
-        "---------------------------------------------------------------------------------------------------------------");
-    print("Answer: ${response["results"][0]["geometry"]["location"]}");
-    print(
-        "---------------------------------------------------------------------------------------------------------------");
   }
 
   static DateTime getFlightHourDeparture() {
@@ -163,7 +157,7 @@ class Dealer {
   }
 
   static DateTime getBoardingDoorOpenHour() {
-    return DateTime.utc(2024, 5, 5, 15, 5);
+    return DateTime.utc(2024, 6, 15, 9, 15);
   }
 
   static String getBoardingDoor() {

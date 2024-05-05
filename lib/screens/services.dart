@@ -29,55 +29,48 @@ class ServicesWidget extends StatefulWidget {
 
 class ServicesWidgetState extends State<ServicesWidget> {
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showMicrophone(context);
-      Speech2Text().listenMessage(setState, func: () async {
-        final String? text = Speech2Text().getLastListenedMessage();
-
-        print("Message: $text");
-
-        if (text != null) {
-          for (var service in ServicesWidget.services) {
-            if (text.toLowerCase().contains(service.toLowerCase())) {
-              var (position, name) = await Dealer.getServiceCoords(service);
-              widget.servicePosition = position;
-              if (widget.servicePosition == null) {
-                Text2Speech().speak("Sorry, no $service found nearby.");
-              } else {
-                var distance = 3;
-                Text2Speech().speak(
-                    "Found a $name nearby. Follow the compass to get there.");
-              }
-            }
-          }
-        }
-      });
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     Text2Speech().speak("What service are you looking for?");
 
-    final LatLng boardingDoorNextLocation =
-        Dealer.getBoardingDoorNextLocation();
+    return GestureDetector(
+      onTap: () {
+        showMicrophone(context);
+        Speech2Text().listenMessage(setState, func: () async {
+          final String? text = Speech2Text().getLastListenedMessage();
 
-    return CarouselPage(
-      pageNumber: widget.pageNumber,
-      title: "Services",
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Padding(padding: EdgeInsets.only(top: 30)),
-            // Compass
-            Compass(
-              destination: boardingDoorNextLocation,
-            ),
-          ],
+          // print("Message: $text");
+
+          if (text != null) {
+            for (var service in ServicesWidget.services) {
+              if (text.toLowerCase().contains(service.toLowerCase())) {
+                var (position, name) = await Dealer.getServiceCoords(service);
+                widget.servicePosition = position;
+                if (widget.servicePosition == null) {
+                  Text2Speech().speak("Sorry, no $service found nearby.");
+                } else {
+                  Text2Speech().speak(
+                      "Found a $name nearby. Follow the compass to get there.");
+                }
+              }
+            }
+          }
+        });
+      },
+      child: CarouselPage(
+        pageNumber: widget.pageNumber,
+        title: "Services",
+        body: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Padding(padding: EdgeInsets.only(top: 30)),
+              // Compass
+              Compass(
+                destination: widget.servicePosition ?? const LatLng(0, 0),
+              ),
+            ],
+          ),
         ),
       ),
     );

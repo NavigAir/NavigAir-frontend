@@ -1,89 +1,136 @@
-// import 'package:flutter/material.dart';
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-// class PersonalInfoScreen extends StatelessWidget {
-//   final String name;
-//   final String passport;
-//   final String imageAsset; // Path to the avatar image asset
-//   final int age; // User's age
-//   final double vision; // Vision capacity as a percentage
+import 'package:flutter/material.dart';
+import 'package:navigair/screens/user_details.dart';
+import 'package:navigair/utils.dart';
 
-//   // PersonalInfoScreen(
-//   // //   {
-//   // //   required this.name,
-//   // //   required this.passport,
-//   // //   required this.imageAsset,
-//   // //   required this.age,
-//   // //   required this.vision,
-//   // // }
-//   // );
+class PersonalInfoScreen extends StatefulWidget {
+  UserDetailsArguments userDetails;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Personal Info'),
-//       ),
-//       body: Center(
-//         child: Container(
-//           padding: EdgeInsets.all(20.0),
-//           decoration: BoxDecoration(
-//             border: Border.all(color: Colors.grey), // Border to simulate an ID card
-//             borderRadius: BorderRadius.circular(10.0), // Rounded corners
-//             color: Colors.white, // Background color for the ID card
-//             boxShadow: [
-//               BoxShadow(
-//                 color: Colors.grey.withOpacity(0.5),
-//                 spreadRadius: 2,
-//                 blurRadius: 5,
-//               ),
-//             ],
-//           ),
-//           child: Row(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               CircleAvatar(
-//                 radius: 40.0, // Avatar size
-//                 backgroundImage: AssetImage(imageAsset), // Load the avatar image
-//               ),
-//               SizedBox(width: 20.0), // Space between the avatar and the text
-//               Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start, // Align text to the left
-//                 children: [
-//                   Text(
-//                     'Name: $name',
-//                     style: TextStyle(
-//                       fontSize: 20.0,
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   ),
-//                   SizedBox(height: 10.0), // Space between text elements
-//                   Text(
-//                     'Passport: $passport',
-//                     style: TextStyle(
-//                       fontSize: 18.0,
-//                       color: Colors.black54, // Softer text color
-//                     ),
-//                   ),
-//                   SizedBox(height: 10.0),
-//                   Text(
-//                     'Age: $age',
-//                     style: TextStyle(
-//                       fontSize: 18.0,
-//                     ),
-//                   ),
-//                   SizedBox(height: 10.0),
-//                   Text(
-//                     'Vision Capacity: ${vision.toStringAsFixed(1)}%', // Rounded to one decimal
-//                     style: TextStyle(
-//                       fontSize: 18.0,
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+  PersonalInfoScreen({required this.userDetails});
+
+  @override
+  State<PersonalInfoScreen> createState() => PersonalInfoScreenState();
+}
+
+class PersonalInfoScreenState extends State<PersonalInfoScreen> {
+  int contactLevel = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return CarouselPage(
+      pageNumber: 1,
+      title: "Personal Info",
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(30.0, 25.0, 30.0, 0.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Center(
+              child: Icon(
+                Icons.person_rounded,
+                size: 150,
+                color: Theme.of(context).colorScheme.outline,
+              ),
+            ),
+            const Divider(
+              height: 0.0, // Distance from avatar to divider.
+              color: Colors.black,
+            ),
+            const Padding(padding: EdgeInsets.only(top: 10)),
+            const Text(
+              'NAME',
+              style: TextStyle(
+                color: Colors.grey,
+                letterSpacing: 2.0,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            Text(
+              '${widget.userDetails.name}',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.outline,
+                letterSpacing: 2.0,
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            const Text(
+              'PASSPORT',
+              style: TextStyle(
+                color: Colors.grey,
+                letterSpacing: 2.0,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            Text(
+              '${widget.userDetails.passport}',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.outline,
+                letterSpacing: 2.0,
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            const Text(
+              'AGE',
+              style: TextStyle(
+                color: Colors.grey,
+                letterSpacing: 2.0,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            Text(
+              '25 years',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.outline,
+                letterSpacing: 2.0,
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            const Text(
+              'VISUAL PERCENTAGE',
+              style: TextStyle(
+                color: Colors.grey,
+                letterSpacing: 2.0,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            Text(
+              '20%',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.outline,
+                letterSpacing: 2.0,
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            const Text(
+              'ADDRESS',
+              style: TextStyle(
+                color: Colors.grey,
+                letterSpacing: 2.0,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            Text(
+              'Jordi Girona nº1 08034, Barcelona',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.outline,
+                letterSpacing: 2.0,
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+          ],
+        ),
+      ),
+    );
+  }
+}

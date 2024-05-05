@@ -3,8 +3,10 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:navigair/screens/boarding_pass.dart';
 import 'package:navigair/screens/flight_info.dart';
 import 'package:flutter/material.dart';
+import 'package:navigair/screens/personal_info.dart';
 import 'package:navigair/screens/user_details.dart';
 import 'package:navigair/screens/services.dart';
 import 'package:navigair/speech2text.dart';
@@ -15,7 +17,6 @@ class HomeScreen extends StatefulWidget {
   UserDetailsArguments details;
 
   HomeScreen({required this.details});
-
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -132,30 +133,32 @@ class _HomeScreenState extends State<HomeScreen> {
             });
           },
           children: <Widget>[
-            FlightInfoWidget(pageNumber: 1),
+            PersonalInfoScreen(userDetails: widget.details),
+            BoardingPass(userDetails: widget.details),
+            FlightInfoWidget(pageNumber: 3),
+            ServicesWidget(pageNumber: 4),
             CarouselPage(
-              pageNumber: 2,
-              title: "Boarding Pass",
-              body: Column(
-                children: [
-                  FilledButton(
-                      onPressed: () => HapticFeedback.lightImpact(),
-                      child: Text("Light Impact")),
-                  FilledButton(
-                      onPressed: () => HapticFeedback.mediumImpact(),
-                      child: Text("Medium Impact")),
-                  FilledButton(
-                      onPressed: () => HapticFeedback.heavyImpact(),
-                      child: Text("Heavy Impact")),
-                  FilledButton(
-                      onPressed: () => HapticFeedback.vibrate(),
-                      child: Text("Vibrate Impact")),
-                ],
+              pageNumber: 5,
+              title: "Ask for help",
+              body: Center(
+                child: FilledButton(
+                  onPressed: () {
+                    Text2Speech().speak(
+                        "Calling the assistance service of the airport. They will be with you in a minute");
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(120),
+                    backgroundColor: Colors.red[900],
+                    foregroundColor: Colors.white,
+                  ),
+                  child: Text(
+                    "HELP",
+                    style: TextStyle(fontSize: 70, fontWeight: FontWeight.w900),
+                  ),
+                ),
               ),
             ),
-            CarouselPage(pageNumber: 3, title: "Page 4"),
-            ServicesWidget(pageNumber: 4),
-            CarouselPage(pageNumber: 5, title: "Page 5"),
           ],
         ),
       ),
