@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:avatar_glow/avatar_glow.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_compass/flutter_compass.dart';
@@ -192,4 +194,27 @@ class InfoBox extends StatelessWidget {
       ),
     );
   }
+}
+
+void showMicrophone(BuildContext context) {
+  showCupertinoModalPopup(
+    context: context,
+    barrierColor: kCupertinoModalBarrierColor.withOpacity(0.5),
+    builder: (context) => Padding(
+      padding: const EdgeInsets.only(bottom: 80),
+      child: AvatarGlow(
+        animate: true,
+        glowColor: Theme.of(context).primaryColor,
+        duration: const Duration(milliseconds: 2000),
+        repeat: true,
+        child: const CircleAvatar(
+          radius: 120,
+          child: Icon(
+            Icons.mic,
+            size: 120,
+          ),
+        ),
+      ),
+    ),
+  );
 }

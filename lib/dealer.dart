@@ -1,3 +1,4 @@
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -16,7 +17,8 @@ class Dealer {
     }
   }
 
-  static Future<void> sendPostRequest(String endpoint, Map<String, dynamic> data) async {
+  static Future<void> sendPostRequest(
+      String endpoint, Map<String, dynamic> data) async {
     try {
       // Convert the data to JSON format
       final body = jsonEncode(data);
@@ -35,10 +37,12 @@ class Dealer {
       // Check the status code to ensure the request was successful
       if (response.statusCode == 201) {
         print('POST request successful');
-        print('Response data: ${response.body}'); // Optionally parse the response
+        print(
+            'Response data: ${response.body}'); // Optionally parse the response
       } else {
         print('Failed to send POST request: ${response.statusCode}');
-        print('Response body: ${response.body}'); // Print the server response for debugging
+        print(
+            'Response body: ${response.body}'); // Print the server response for debugging
         throw Exception('Failed to send POST request');
       }
     } catch (e) {
@@ -47,33 +51,42 @@ class Dealer {
     }
   }
 
-  Future<void> sendPutRequest(String endpoint, Map<String, dynamic> data) async {
-  try {
-    // Convert the data to JSON format
-    final body = jsonEncode(data);
+  Future<void> sendPutRequest(
+      String endpoint, Map<String, dynamic> data) async {
+    try {
+      // Convert the data to JSON format
+      final body = jsonEncode(data);
 
-    // Send the PUT request
-    final response = await http.put(
-      Uri.parse('$baseUrl/$endpoint'),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: body,
-    );
+      // Send the PUT request
+      final response = await http.put(
+        Uri.parse('$baseUrl/$endpoint'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: body,
+      );
 
-    // Check the status code to ensure the request was successful
-    if (response.statusCode == 200) {
-      print('PUT request successful');
-    } else {
-      print('Failed to send PUT request: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      // Check the status code to ensure the request was successful
+      if (response.statusCode == 200) {
+        print('PUT request successful');
+      } else {
+        print('Failed to send PUT request: ${response.statusCode}');
+        print('Response body: ${response.body}');
+      }
+    } catch (e) {
+      print('Error sending PUT request: $e');
     }
-  } catch (e) {
-    print('Error sending PUT request: $e');
   }
-}
 
-  static void createNewUser(String email, String password, String name, String passport, String vision, String? age, String? address, String? birthday) {
+  static void createNewUser(
+      String email,
+      String password,
+      String name,
+      String passport,
+      String vision,
+      String? age,
+      String? address,
+      String? birthday) {
     final newUser = {
       'mail': email,
       'pwd': password,
@@ -96,9 +109,32 @@ class Dealer {
 
     print(newUser);
 
-    sendPostRequest('user/unit', newUser); // Send the POST request with user data
+    sendPostRequest(
+        'user/unit', newUser); // Send the POST request with user data
   }
 
+  static Future<(LatLng?, String)> getServiceCoords(String service) async {
+    final Position currentPos = await Geolocator.getCurrentPosition();
+    String data =
+        "location/places?latitude=${currentPos.latitude}&longitude=${currentPos.longitude}&string=$service";
+    var response = await fetchData(data);
+
+    var serv = response?["results"]?[0];
+
+    LatLng? location = serv == null
+        ? null
+        : LatLng(serv["geometry"]["location"]["lat"],
+            serv["geometry"]["location"]["lng"]);
+    String name = serv["name"];
+
+    return (location, name);
+
+    print(
+        "---------------------------------------------------------------------------------------------------------------");
+    print("Answer: ${response["results"][0]["geometry"]["location"]}");
+    print(
+        "---------------------------------------------------------------------------------------------------------------");
+  }
 
   static DateTime getFlightHourDeparture() {
     return DateTime.utc(2024, 5, 5, 15, 35);
@@ -124,7 +160,5 @@ class Dealer {
     return true;
   }
 
-  static void sendFlight(flightName) {
-
-  }
+  static void sendFlight(flightName) {}
 }
