@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
@@ -105,6 +106,10 @@ class CompassState extends State<Compass> {
         widget.destination.longitude);
 
     double bearing = -bearingToNorth + bearingToDest;
+
+    if (bearing.abs() < 8) {
+      HapticFeedback.heavyImpact();
+    }
 
     return Stack(
       alignment: Alignment.center,

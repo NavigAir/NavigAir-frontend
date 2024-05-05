@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:navigair/screens/flight_info.dart';
 import 'package:flutter/material.dart';
 import 'package:navigair/speech2text.dart';
-import 'package:navigair/talk_screen.dart';
 import 'package:navigair/text2speech.dart';
 import 'package:navigair/utils.dart';
 
@@ -168,7 +167,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             CarouselPage(pageNumber: 4, title: "Page 4"),
             CarouselPage(pageNumber: 4, title: "Page 5"),
-            TalkScreen(),
           ],
         ),
       ),
