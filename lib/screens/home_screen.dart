@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:navigair/screens/flight_info.dart';
 import 'package:flutter/material.dart';
 import 'package:navigair/screens/user_details.dart';
+import 'package:navigair/screens/services.dart';
 import 'package:navigair/speech2text.dart';
-import 'package:navigair/talk_screen.dart';
 import 'package:navigair/text2speech.dart';
 import 'package:navigair/utils.dart';
 
@@ -49,30 +49,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return GestureDetector(
       onVerticalDragEnd: (details) {
         if (swipingDown) {
-          showCupertinoModalPopup(
-            context: context,
-            barrierColor: kCupertinoModalBarrierColor.withOpacity(0.5),
-            builder: (context) => Padding(
-              padding: EdgeInsets.only(bottom: 80),
-              child: AvatarGlow(
-                animate: true,
-                glowColor: Theme.of(context).primaryColor,
-                duration: const Duration(milliseconds: 2000),
-                repeat: true,
-                child: CircleAvatar(
-                  radius: 120,
-                  child: Icon(
-                    Icons.mic,
-                    size: 120,
-                  ),
-                ),
-              ),
-            ),
-          );
+          showMicrophone(context);
           Speech2Text().listenMessage(setState, func: () {
             var text = Speech2Text().getLastListenedMessage();
 
-            print(text);
+            // print(text);
 
             if (text != null) {
               for (var entry in pageTitles.entries) {
@@ -172,13 +153,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            CarouselPage(
-              pageNumber: 3,
-              title: "Page 3",
-            ),
-            CarouselPage(pageNumber: 4, title: "Page 4"),
+            CarouselPage(pageNumber: 3, title: "Page 4"),
+            ServicesWidget(pageNumber: 4),
             CarouselPage(pageNumber: 5, title: "Page 5"),
-            TalkScreen(),
           ],
         ),
       ),
