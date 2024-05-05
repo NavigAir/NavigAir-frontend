@@ -44,22 +44,46 @@ class _HomeScreenState extends State<HomeScreen> {
       onVerticalDragEnd: (details) {
         if (swipingDown) {
           showCupertinoModalPopup(
-              context: context,
-              builder: (context) => Padding(
-                    padding: EdgeInsets.only(bottom: 100),
-                    child: AvatarGlow(
-                        animate: true,
-                        glowColor: Theme.of(context).primaryColor,
-                        // endRadius: 75.0,
-                        duration: const Duration(milliseconds: 2000),
-                        // repeatPauseDuration: const Duration(milliseconds: 100),
-                        repeat: true,
-                        child: Container(
-                            child: Icon(
-                          Icons.mic,
-                          size: 100,
-                        ))),
-                  ));
+            context: context,
+            barrierColor: kCupertinoModalBarrierColor.withOpacity(0.5),
+            builder: (context) => Padding(
+              padding: EdgeInsets.only(bottom: 80),
+              child: AvatarGlow(
+                animate: true,
+                glowColor: Theme.of(context).primaryColor,
+                duration: const Duration(milliseconds: 2000),
+                repeat: true,
+                child: CircleAvatar(
+                  radius: 120,
+                  child: Icon(
+                    Icons.mic,
+                    size: 120,
+                  ),
+                ),
+              ),
+            ),
+          );
+          Speech2Text().listenMessage(setState, func: () {
+            var text = Speech2Text().getLastListenedMessage();
+
+            print(text);
+
+            if (text != null) {
+              for (var entry in pageTitles.entries) {
+                if (text.toLowerCase().contains(entry.value.toLowerCase())) {
+                  currentIndex = entry.key;
+                  _pageController.animateToPage(
+                    currentIndex,
+                    duration: Duration(milliseconds: 200),
+                    curve: Curves.linear,
+                  );
+                  break;
+                }
+              }
+            }
+
+            Navigator.of(context).pop();
+          });
         }
       },
       onVerticalDragUpdate: (details) {
@@ -141,16 +165,6 @@ class _HomeScreenState extends State<HomeScreen> {
             CarouselPage(
               pageNumber: 3,
               title: "Page 3",
-              body: Column(
-                children: [
-                  FilledButton(
-                    child: Text("Speech2Text"),
-                    onPressed: () => Speech2Text().listenMessage(setState),
-                  ),
-                  Text(Speech2Text().getLastListenedMessage() ??
-                      "No message yet :("),
-                ],
-              ),
             ),
             CarouselPage(pageNumber: 4, title: "Page 4"),
             CarouselPage(pageNumber: 4, title: "Page 5"),

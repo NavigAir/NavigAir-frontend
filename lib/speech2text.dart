@@ -24,7 +24,11 @@ class Speech2Text {
     return _text;
   }
 
-  void listenMessage(widgetSetState) async {
+  void clearLastMessage() {
+    _text = null;
+  }
+
+  void listenMessage(widgetSetState, {func}) async {
     bool available = await _speech2Text.initialize(
         onStatus: (val) => print('onStatus: $val'),
         onError: (val) => print('onError: $val'));
@@ -33,8 +37,6 @@ class Speech2Text {
       throw "Error";
     }
 
-    double confidence = 0;
-
     _speech2Text.listen(
       listenOptions:
           SpeechListenOptions(partialResults: false, cancelOnError: true),
@@ -42,9 +44,7 @@ class Speech2Text {
       onResult: (result) => widgetSetState(
         () {
           _text = result.recognizedWords;
-          if (result.hasConfidenceRating && result.confidence > 0) {
-            confidence = result.confidence;
-          }
+          func();
         },
       ),
     );
