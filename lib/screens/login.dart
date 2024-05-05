@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navigair/dealer.dart';
-import 'package:navigair/screens/flight_input.dart';
+
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -105,92 +105,3 @@ class _LoginFieldsState extends State<LoginFields> {
   }
 }
 
-class SignupScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Sign Up'),
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Sign Up',
-                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 20.0),
-              SignupFields(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class SignupFields extends StatefulWidget {
-  @override
-  _SignupFieldsState createState() => _SignupFieldsState();
-}
-
-class _SignupFieldsState extends State<SignupFields> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: _emailController,
-          decoration: InputDecoration(
-            labelText: 'Email',
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-          ),
-        ),
-        SizedBox(height: 10.0),
-        TextField(
-          controller: _passwordController,
-          obscureText: true,
-          decoration: InputDecoration(
-            labelText: 'Password',
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-          ),
-        ),
-        SizedBox(height: 10.0),
-        TextField(
-          controller: _confirmPasswordController,
-          obscureText: true,
-          decoration: InputDecoration(
-            labelText: 'Confirm Password',
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-          ),
-        ),
-        SizedBox(height: 10.0),
-        ElevatedButton(
-          onPressed: () {
-            // Handle signup logic
-          },
-          child: Text('Sign Up'),
-        ),
-      ],
-    );
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    super.dispose();
-  }
-}
