@@ -7,20 +7,32 @@ class StartScreen extends StatefulWidget {
 }
 
 class StartScreenState extends State<StartScreen> {
-  bool _hasPermissions = false;
+  bool _hasLocationPermission = false;
+  bool _hasMicrophonePermission = false;
 
   @override
   void initState() {
     super.initState();
 
-    _fetchPermissionStatus();
+    _fetchLocationPermissionStatus();
+    _fetchMicrophonePermissionStatus();
   }
 
-  void _fetchPermissionStatus() {
+  void _fetchLocationPermissionStatus() {
     Permission.locationWhenInUse.status.then((status) {
       if (mounted) {
         setState(() {
-          _hasPermissions = (status == PermissionStatus.granted);
+          _hasLocationPermission = (status == PermissionStatus.granted);
+        });
+      }
+    });
+  }
+
+  void _fetchMicrophonePermissionStatus() {
+    Permission.microphone.status.then((status) {
+      if (mounted) {
+        setState(() {
+          _hasMicrophonePermission = (status == PermissionStatus.granted);
         });
       }
     });
@@ -33,7 +45,7 @@ class StartScreenState extends State<StartScreen> {
       home: Scaffold(
         body: Builder(
           builder: (context) {
-            if (_hasPermissions) {
+            if (_hasLocationPermission && _hasMicrophonePermission) {
               return _buildScreen();
             } else {
               return _buildPermissionSheet();
@@ -61,13 +73,21 @@ class StartScreenState extends State<StartScreen> {
 
   Widget _buildPermissionSheet() {
     return Center(
-      child: ElevatedButton(
-        child: const Text('Request Permissions'),
-        onPressed: () {
-          Permission.locationWhenInUse.request().then((ignored) {
-            _fetchPermissionStatus();
-          });
-        },
+      child: Column(
+        children: [
+          const Text("This application needs acces to bla bla bla"),
+          ElevatedButton(
+            child: const Text('Request Permissions'),
+            onPressed: () {
+              Permission.locationWhenInUse.request().then((ignored) {
+                _fetchLocationPermissionStatus();
+              });
+              Permission.microphone.request().then((ignored) {
+                _fetchMicrophonePermissionStatus();
+              });
+            },
+          ),
+        ],
       ),
     );
   }
