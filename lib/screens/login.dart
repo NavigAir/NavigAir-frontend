@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget {
                 },
                 child: Text(
                   'New User? Sign Up',
-                  style: TextStyle(fontSize: 16.0, color: Colors.blue),
+                  style: TextStyle(fontSize: 16.0),
                 ),
               ),
             ],

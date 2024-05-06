@@ -77,7 +77,7 @@ class _FlightInputScreenState extends State<FlightInputScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flight Search'),
+        title: const Text('Flight Search'),
       ),
       body: SafeArea(
         child: Padding(
@@ -95,10 +95,10 @@ class _FlightInputScreenState extends State<FlightInputScreen> {
                   hintText: 'e.g., AA123',
                 ),
               ),
-              SizedBox(height: 15.0),
+              const SizedBox(height: 15.0),
               ElevatedButton(
                 onPressed: _searchFlight,
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(Icons.search), // Magnifying glass icon
@@ -107,18 +107,17 @@ class _FlightInputScreenState extends State<FlightInputScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 25.0),
+              const SizedBox(height: 25.0),
               if (_flightInfo == null && _flightNameController.text.isNotEmpty)
                 Text(
                   'No flight information found for "${_flightNameController.text}"',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16.0,
                     color: Colors.redAccent,
                   ),
                 ),
-              if (_flightInfo != null)
-                FlightTicket(flightInfo: _flightInfo!),
-              Spacer(), // This will push the button to the bottom
+              if (_flightInfo != null) FlightTicket(flightInfo: _flightInfo!),
+              const Spacer(), // This will push the button to the bottom
               if (_flightInfo != null)
                 ElevatedButton(
                   onPressed: () {
@@ -134,11 +133,13 @@ class _FlightInputScreenState extends State<FlightInputScreen> {
                       assigned_flight: _flightNameController.text,
                     );
                     Dealer.sendFlight(widget.details);
-                    Navigator.pushNamed(context, '/start', arguments: widget.details);
+                    Navigator.pushNamed(context, '/start',
+                        arguments: widget.details);
                   },
-                  child: Text('Continue',
-                   style: TextStyle(fontSize: 16.0),
-                   ),
+                  child: const Text(
+                    'Continue',
+                    style: TextStyle(fontSize: 16.0),
+                  ),
                 ),
             ],
           ),
@@ -183,7 +184,7 @@ class FlightTicket extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 5.0),
+            const SizedBox(height: 5.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -205,14 +206,14 @@ class FlightTicket extends StatelessWidget {
                         color: colorScheme.primary,
                       ),
                     ),
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                     Row(
                       children: [
                         Icon(
                           Icons.schedule,
                           color: colorScheme.outline,
                         ),
-                        SizedBox(width: 5.0),
+                        const SizedBox(width: 5.0),
                         Text(
                           flightInfo['departureTime'] ?? 'N/A',
                           style: TextStyle(
@@ -242,14 +243,14 @@ class FlightTicket extends StatelessWidget {
                         color: colorScheme.primary,
                       ),
                     ),
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                     Row(
                       children: [
                         Icon(
                           Icons.schedule,
                           color: colorScheme.outline,
                         ),
-                        SizedBox(width: 5.0),
+                        const SizedBox(width: 5.0),
                         Text(
                           flightInfo['arrivalTime'] ?? 'N/A',
                           style: TextStyle(
@@ -263,7 +264,7 @@ class FlightTicket extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 5.0),
+            const SizedBox(height: 5.0),
             Center(
               child: Column(
                 children: [
@@ -285,7 +286,7 @@ class FlightTicket extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 5.0),
+            const SizedBox(height: 5.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -319,7 +320,7 @@ class FlightTicket extends StatelessWidget {
                         color: colorScheme.onSurface.withOpacity(0.7),
                       ),
                     ),
-                    SizedBox(height: 5.0),
+                    const SizedBox(height: 5.0),
                     Text(
                       flightInfo['plane'] ?? 'N/A', // Plane type
                       style: TextStyle(

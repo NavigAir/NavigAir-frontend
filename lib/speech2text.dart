@@ -30,8 +30,14 @@ class Speech2Text {
 
   void listenMessage(widgetSetState, {func}) async {
     bool available = await _speech2Text.initialize(
-        onStatus: (val) => print('onStatus: $val'),
-        onError: (val) => print('onError: $val'));
+      onStatus: (val) => print('onStatus: $val'),
+      onError: (result) => widgetSetState(
+        () {
+          _text = null;
+          func();
+        },
+      ),
+    );
 
     if (!available) {
       throw "Error";

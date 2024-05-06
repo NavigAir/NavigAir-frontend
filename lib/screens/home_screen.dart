@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -33,7 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
     4: "Ask for Help",
   };
 
-  PageController _pageController = PageController(
+  final PageController _pageController = PageController(
+    // If changed, change also the Text2Speech at route_generator.dart
     initialPage: 0,
   );
   int currentIndex = 0;
@@ -62,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   currentIndex = entry.key;
                   _pageController.animateToPage(
                     currentIndex,
-                    duration: Duration(milliseconds: 200),
+                    duration: const Duration(milliseconds: 200),
                     curve: Curves.linear,
                   );
                   break;
@@ -75,7 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       },
       onVerticalDragUpdate: (details) {
-        print("DragUpdate: ${details.delta.dy}");
         swipingDown = details.delta.dy < 0;
       },
       child: Scaffold(
@@ -87,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
             currentIndex = value;
             _pageController.animateToPage(
               value,
-              duration: Duration(milliseconds: 200),
+              duration: const Duration(milliseconds: 200),
               curve: Curves.linear,
             );
 
@@ -95,33 +93,25 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.insert_drive_file_outlined),
+              icon: const Icon(Icons.insert_drive_file_outlined),
               label: pageTitles[0],
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.trending_up),
+              icon: const Icon(Icons.trending_up),
               label: pageTitles[1],
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.flight),
+              icon: const Icon(Icons.flight),
               label: pageTitles[2],
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.design_services_outlined),
+              icon: const Icon(Icons.design_services_outlined),
               label: pageTitles[3],
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.help),
+              icon: const Icon(Icons.help),
               label: pageTitles[4],
             ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(Icons.abc_rounded),
-            //   label: "stt",
-            // ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(Icons.abc_rounded),
-            //   label: "tts",
-            // ),
           ],
         ),
         body: PageView(
@@ -147,14 +137,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         "Calling the assistance service of the airport. They will be with you in a minute");
                   },
                   style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(120),
+                    shape: const CircleBorder(),
+                    padding: const EdgeInsets.all(100),
                     backgroundColor: Colors.red[900],
                     foregroundColor: Colors.white,
                   ),
-                  child: Text(
+                  child: const Text(
                     "HELP",
-                    style: TextStyle(fontSize: 70, fontWeight: FontWeight.w900),
+                    style: TextStyle(fontSize: 60, fontWeight: FontWeight.w700),
                   ),
                 ),
               ),

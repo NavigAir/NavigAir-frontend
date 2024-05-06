@@ -55,6 +55,19 @@ class Compass extends StatefulWidget {
   State<Compass> createState() => CompassState();
 }
 
+class Vibrator {
+  static DateTime previousVibration = DateTime.now();
+
+  static vibrate() {
+    if (DateTime.now().difference(previousVibration) >
+        Duration(milliseconds: 50)) {
+      HapticFeedback.heavyImpact();
+      previousVibration = DateTime.now();
+      // print("Has vibrated");
+    }
+  }
+}
+
 class CompassState extends State<Compass> {
   @override
   void initState() {
@@ -110,7 +123,7 @@ class CompassState extends State<Compass> {
     double bearing = -bearingToNorth + bearingToDest;
 
     if (bearing.abs() < 8) {
-      HapticFeedback.heavyImpact();
+      Vibrator.vibrate();
     }
 
     return Stack(
@@ -196,13 +209,14 @@ class InfoBox extends StatelessWidget {
   }
 }
 
-void showMicrophone(BuildContext context) {
+void showMicrophone(BuildContext context, {key, then}) {
   showCupertinoModalPopup(
     context: context,
     barrierColor: kCupertinoModalBarrierColor.withOpacity(0.5),
     builder: (context) => Padding(
       padding: const EdgeInsets.only(bottom: 80),
       child: AvatarGlow(
+        key: key,
         animate: true,
         glowColor: Theme.of(context).primaryColor,
         duration: const Duration(milliseconds: 2000),
@@ -216,5 +230,5 @@ void showMicrophone(BuildContext context) {
         ),
       ),
     ),
-  );
+  ).then((value) => then == null ? null : then(value));
 }

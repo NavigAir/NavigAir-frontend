@@ -9,6 +9,7 @@ import 'package:navigair/theme.dart';
 import 'package:navigair/utils.dart';
 
 class ServicesWidget extends StatefulWidget {
+  final GlobalKey _popupKey = GlobalKey();
   int pageNumber;
   LatLng? servicePosition;
 
@@ -30,30 +31,43 @@ class ServicesWidget extends StatefulWidget {
 class ServicesWidgetState extends State<ServicesWidget> {
   @override
   Widget build(BuildContext context) {
-    Text2Speech().speak("What service are you looking for?");
-
     return GestureDetector(
       onTap: () {
-        showMicrophone(context);
-        Speech2Text().listenMessage(setState, func: () async {
-          final String? text = Speech2Text().getLastListenedMessage();
+        bool should_continue = true;
+        showMicrophone(context, key: widget._popupKey, then: (_) {
+          Text2Speech().stop();
+          should_continue = false;
+        });
+        Text2Speech().speak("What service are you looking for?");
+        Future.delayed(const Duration(seconds: 2), () {
+          if (!should_continue) return;
+          Speech2Text().listenMessage(setState, func: () async {
+            final String? text = Speech2Text().getLastListenedMessage();
 
-          // print("Message: $text");
+            print("Message: $text");
 
-          if (text != null) {
-            for (var service in ServicesWidget.services) {
-              if (text.toLowerCase().contains(service.toLowerCase())) {
-                var (position, name) = await Dealer.getServiceCoords(service);
-                widget.servicePosition = position;
-                if (widget.servicePosition == null) {
-                  Text2Speech().speak("Sorry, no $service found nearby.");
-                } else {
-                  Text2Speech().speak(
-                      "Found a $name nearby. Follow the compass to get there.");
+            if (widget._popupKey.currentContext != null) {
+              print("Inside popup");
+            }
+
+            if (text != null) {
+              for (var service in ServicesWidget.services) {
+                if (text.toLowerCase().contains(service.toLowerCase())) {
+                  var (position, name) = await Dealer.getServiceCoords(service);
+                  widget.servicePosition = position;
+                  if (widget.servicePosition == null) {
+                    Text2Speech().speak("Sorry, no $service found nearby.");
+                  } else {
+                    Text2Speech().speak(
+                        "Found a $name nearby. Follow the compass to get there.");
+                  }
                 }
               }
             }
-          }
+            if (widget._popupKey.currentContext != null) {
+              Navigator.of(context).pop();
+            }
+          });
         });
       },
       child: CarouselPage(

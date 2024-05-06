@@ -7,6 +7,7 @@ import 'package:navigair/screens/start.dart';
 import 'package:navigair/screens/personal_info.dart';
 import 'package:navigair/screens/signup_screen.dart';
 import 'package:navigair/screens/user_details.dart';
+import 'package:navigair/text2speech.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -15,29 +16,48 @@ class RouteGenerator {
     switch (settings.name) {
       case '/carousel':
         if (args is UserDetailsArguments) {
-          return CupertinoPageRoute(builder: (_) => HomeScreen(details: args,));
+          Text2Speech().speak("Personal Info");
+          return CupertinoPageRoute(
+              settings: settings,
+              builder: (_) => HomeScreen(
+                    details: args,
+                  ));
         } else {
           return errorRoute('${settings.name} with args: $args');
         }
       case '/login':
-        return CupertinoPageRoute(builder: (_) => LoginScreen());
+        return CupertinoPageRoute(
+            settings: settings, builder: (_) => LoginScreen());
       case '/start':
         if (args is UserDetailsArguments) {
-          return CupertinoPageRoute(builder: (_) => StartScreen(details: args,));
+          return CupertinoPageRoute(
+              settings: settings,
+              builder: (_) => StartScreen(
+                    details: args,
+                  ));
         } else {
           return errorRoute('${settings.name} with args: $args');
         }
       case '/flight_input':
-       if (args is UserDetailsArguments) {
-          return CupertinoPageRoute(builder: (_) => FlightInputScreen(details: args,));
+        if (args is UserDetailsArguments) {
+          return CupertinoPageRoute(
+              settings: settings,
+              builder: (_) => FlightInputScreen(
+                    details: args,
+                  ));
         } else {
           return errorRoute('${settings.name} with args: $args');
         }
       case '/signup':
-        return CupertinoPageRoute(builder: (_) => SignupScreen());
+        return CupertinoPageRoute(
+            settings: settings, builder: (_) => SignupScreen());
       case '/user_details':
-       if (args is UserDetailsArguments) {
-          return CupertinoPageRoute(builder: (_) => UserDetailsScreen(details: args,));
+        if (args is UserDetailsArguments) {
+          return CupertinoPageRoute(
+              settings: settings,
+              builder: (_) => UserDetailsScreen(
+                    details: args,
+                  ));
         } else {
           return errorRoute('${settings.name} with args: $args');
         }

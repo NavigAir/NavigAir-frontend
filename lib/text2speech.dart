@@ -22,4 +22,8 @@ class Text2Speech {
   void speak(String msg) async {
     await flutterTts.speak(msg);
   }
+
+  void stop() async {
+    await flutterTts.stop();
+  }
 }
