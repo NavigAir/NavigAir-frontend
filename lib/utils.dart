@@ -115,12 +115,15 @@ class CompassState extends State<Compass> {
     }
 
     double bearingToDest = Geolocator.bearingBetween(
-        widget.currentPosition!.latitude,
-        widget.currentPosition!.longitude,
-        widget.destination.latitude,
-        widget.destination.longitude);
+            widget.currentPosition!.latitude,
+            widget.currentPosition!.longitude,
+            widget.destination.latitude,
+            widget.destination.longitude)
+        .bounded;
 
-    double bearing = -bearingToNorth + bearingToDest;
+    double bearing = (-bearingToNorth + bearingToDest).bounded;
+
+    print("bearing: $bearing");
 
     if (bearing.abs() < 8) {
       Vibrator.vibrate();
@@ -145,6 +148,15 @@ class CompassState extends State<Compass> {
         ),
       ],
     );
+  }
+}
+
+extension on double {
+  double get bounded {
+    if (this > 180) {
+      return this - 360;
+    }
+    return this;
   }
 }
 
